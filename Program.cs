@@ -60,7 +60,7 @@ namespace RegexUserRegistration
             string email = Console.ReadLine();
             try
             {
-                Console.WriteLine(EmailValidation(email));
+               EmailValidation(email);
 
 
             }
@@ -85,13 +85,23 @@ namespace RegexUserRegistration
 
             Console.WriteLine("Enter a Password");
             string pass = Console.ReadLine();
-            Console.WriteLine(PassValidation(pass));
 
+            try
+            {
+                Console.WriteLine(PassValidation(pass));
+            }
+
+            catch (CustomStringException e)
+            {
+                Console.WriteLine("String format Exception: {0}", e.Message);
+
+            }
 
             string[] testSampleMails = {"abc@yahoo.com", "abc-100@yahoo.com","abc.100@yahoo.com", "abc-100@abc.net","abc-100@abc.net",
                  "abc.100@abc.com.au","abc@1.com","abc@gmail.com.com","abc+100@gmail.com" };
 
             foreach (string item in testSampleMails)
+
             {
                 Console.WriteLine($" {item} {EmailValidation(item)}");
             }
@@ -107,16 +117,21 @@ namespace RegexUserRegistration
 
         public static bool EmailValidation(string email)
         {
-            if (email== null | email.Length==0)
+            if (email == null | email.Length == 0)
             {
                 throw new CustomStringException("cannot accept Empty or null string ");
             }
-            else if (NameValidation(email) == false)
+            else if (Regex.IsMatch(email, emailPattern) == false)
             {
-                throw new CustomStringException("Invalid format");
+                throw new CustomStringException("Invalid Email format");
             }
-            return Regex.IsMatch(email, emailPattern);
+            else
+            {
+                return Regex.IsMatch(email, emailPattern);
+            }
+           
         }
+
 
         public static bool MobileNumValidation(string mob)
         {
@@ -124,7 +139,7 @@ namespace RegexUserRegistration
             {
                 throw new CustomStringException("cannot accept Empty or null string ");
             }
-            else if (NameValidation(mob) == true)
+            else if (Regex.IsMatch(mob, mobileNumPattern) == false)
             {
                 throw new CustomStringException("Invalid Mobile NO");
             }
@@ -138,8 +153,22 @@ namespace RegexUserRegistration
 
         public static bool PassValidation(string pass)
         {
-            return Regex.IsMatch(pass, passPattern);
+            if (pass.Length == 0)
+            {
+                throw new CustomStringException("cannot accept Empty or null string ");
+            }
+            else if (Regex.IsMatch(pass, passPattern) == false)
+            {
+                throw new CustomStringException("Invalid PAssword combination");
+            }
+            else
+            {
+                return Regex.IsMatch(pass, passPattern);
+            }
+          
+            
         }
+
 
 
 
