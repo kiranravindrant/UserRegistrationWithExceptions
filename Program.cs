@@ -58,7 +58,17 @@ namespace RegexUserRegistration
 
             Console.WriteLine("Enter Email");
             string email = Console.ReadLine();
-            Console.WriteLine(EmailValidation(email));
+            try
+            {
+                Console.WriteLine(EmailValidation(email));
+
+
+            }
+            catch (CustomStringException e)
+            {
+                Console.WriteLine("String format Exception: {0}", e.Message);
+            }
+
 
             Console.WriteLine("Enter Mobile Number with Countrycode, followed by space");
             string mob = Console.ReadLine();
@@ -79,11 +89,7 @@ namespace RegexUserRegistration
 
 
 
-
-
-
-
-
+            ///////////////Methods////////////////////////////
         }
         public static bool NameValidation(string name)
         {
@@ -92,6 +98,14 @@ namespace RegexUserRegistration
 
         public static bool EmailValidation(string email)
         {
+            if (email== null | email== "0")
+            {
+                throw new CustomStringException("cannot accept Empty or null string ");
+            }
+            else if (NameValidation(email) == false)
+            {
+                throw new CustomStringException("Invalid format");
+            }
             return Regex.IsMatch(email, emailPattern);
         }
 
