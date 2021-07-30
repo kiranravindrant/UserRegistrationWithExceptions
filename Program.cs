@@ -13,20 +13,15 @@ namespace RegexUserRegistration
         public static string passPattern = "^((?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*-_.])(?=.{8,}))";
         static void Main(string[] args)
         {
-            try
-            {
+            
                 Console.WriteLine("=======User Registration=====");
                 Console.WriteLine("Enter your FirstName");
+            try
+            {
                 firstname = Console.ReadLine();
-                if (firstname == null | firstname.Length ==0)
-                {
-                    throw new CustomStringException("cannot accept Empty or null string ");
-                }
-                else if (NameValidation(firstname) == false)
-                {
-                    throw new CustomStringException("Invalid format");
-                }
+                NameValidation(firstname);
             }
+            
             catch (CustomStringException e)
             {
                 Console.WriteLine("String format Exception: {0}", e.Message);
@@ -38,16 +33,7 @@ namespace RegexUserRegistration
             try
             {
                 string lastname = Console.ReadLine();
-
-
-                if (lastname.Length == 0 | lastname == null)
-                {
-                    throw new CustomStringException("cannot accept Empty or null string ");
-                }
-                else if (NameValidation(lastname) == false)
-                {
-                    throw new CustomStringException("Invalid format");
-                }
+                NameValidation(lastname);
             }
             catch (CustomStringException e)
             {
@@ -122,7 +108,18 @@ namespace RegexUserRegistration
         }
         public static bool NameValidation(string name)
         {
-            return Regex.IsMatch(name, namePattern);
+            if (name == null | name.Length == 0)
+            {
+                throw new CustomStringException("cannot accept Empty or null string ");
+            }
+            else if (Regex.IsMatch(name, namePattern) == false)
+            {
+                throw new CustomStringException("Invalid format");
+            }
+            else
+            {
+                return Regex.IsMatch(name, namePattern);
+            }
         }
 
         public static bool EmailValidation(string email)
