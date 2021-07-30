@@ -103,8 +103,18 @@ namespace RegexUserRegistration
             foreach (string item in testSampleMails)
 
             {
-                Console.WriteLine($" {item} {EmailValidation(item)}");
+                try
+                {
+                    Console.WriteLine($" {item} {EmailValidation(item)}");
+                }
+                catch(CustomStringException e)
+                {
+                    Console.WriteLine("String format Exception: {0}", e.Message);
+                }
+            
+            
             }
+
 
 
 
@@ -168,12 +178,6 @@ namespace RegexUserRegistration
           
             
         }
-
-
-
-
-
-
 
 
 
