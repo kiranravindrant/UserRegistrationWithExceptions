@@ -18,7 +18,7 @@ namespace RegexUserRegistration
                 Console.WriteLine("=======User Registration=====");
                 Console.WriteLine("Enter your FirstName");
                 firstname = Console.ReadLine();
-                if (firstname == null | firstname == "0")
+                if (firstname == null | firstname.Length ==0)
                 {
                     throw new CustomStringException("cannot accept Empty or null string ");
                 }
@@ -40,7 +40,7 @@ namespace RegexUserRegistration
                 string lastname = Console.ReadLine();
 
 
-                if (lastname == null | lastname == "0")
+                if (lastname.Length == 0 | lastname == null)
                 {
                     throw new CustomStringException("cannot accept Empty or null string ");
                 }
@@ -72,7 +72,16 @@ namespace RegexUserRegistration
 
             Console.WriteLine("Enter Mobile Number with Countrycode, followed by space");
             string mob = Console.ReadLine();
-            Console.WriteLine(MobileNumValidation(mob));
+            try
+            {
+                Console.WriteLine(MobileNumValidation(mob));
+            }
+
+            catch(CustomStringException e)
+            {
+                Console.WriteLine("String format Exception: {0}", e.Message);
+            }
+
 
             Console.WriteLine("Enter a Password");
             string pass = Console.ReadLine();
@@ -98,7 +107,7 @@ namespace RegexUserRegistration
 
         public static bool EmailValidation(string email)
         {
-            if (email== null | email== "0")
+            if (email== null | email.Length==0)
             {
                 throw new CustomStringException("cannot accept Empty or null string ");
             }
@@ -111,7 +120,20 @@ namespace RegexUserRegistration
 
         public static bool MobileNumValidation(string mob)
         {
-            return Regex.IsMatch(mob, mobileNumPattern);
+            if (mob.Length == 0)
+            {
+                throw new CustomStringException("cannot accept Empty or null string ");
+            }
+            else if (NameValidation(mob) == true)
+            {
+                throw new CustomStringException("Invalid Mobile NO");
+            }
+            else
+            {
+                return Regex.IsMatch(mob, mobileNumPattern);
+
+            }
+
         }
 
         public static bool PassValidation(string pass)
